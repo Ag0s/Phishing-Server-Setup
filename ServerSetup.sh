@@ -21,12 +21,14 @@ debian_initialize() {
 
 	echo "IPv6 Disabled"
 
-	cat <<-EOF >> /etc/sysctl.
+	cat <<-EOF >> /etc/sysctl.conf
 	net.ipv6.conf.lo.disable_ipv6 = 1
 	net.ipv6.conf.eth0.disable_ipv6 = 1
 	net.ipv6.conf.eth1.disable_ipv6 = 1
 	net.ipv6.conf.ppp0.disable_ipv6 = 1
 	net.ipv6.conf.tun0.disable_ipv6 = 1
+	net.ipv6.conf.all.disable_ipv6 = 1
+	net.ipv6.conf.default.disable_ipv6 = 1
 	EOF
 
 	sysctl -p > /dev/null 2>&1
@@ -38,9 +40,8 @@ debian_initialize() {
 	cat <<-EOF > /etc/hosts
 	127.0.1.1 $primary_domain $primary_domain
 	127.0.0.1 localhost
-	EOFconf
-	net.ipv6.conf.all.disable_ipv6 = 1
-	net.ipv6.conf.default.disable_ipv6 = 1
+	EOF
+	
 
 	cat <<-EOF > /etc/hostname
 	$primary_domain
